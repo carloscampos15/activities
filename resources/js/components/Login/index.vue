@@ -95,7 +95,6 @@ export default {
         .catch((err) => {
           that.loading = false;
           that.errors = false;
-          console.log(err.data);
         });
     },
   },

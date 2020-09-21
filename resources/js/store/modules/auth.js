@@ -24,11 +24,7 @@ const actions = {
             commit(REGISTER_REQUEST);
             apiCall({ url: "/api/register", method: "POST", data: user })
                 .then(response => {
-                    console.log(response.data)
-                    localStorage.setItem("access_token", response.data.access_token);
                     commit(AUTH_SUCCESS, response);
-                    // aqui debo organizar el api OJO
-                    // dispatch(USER_REQUEST);
                     resolve(response);
                 })
                 .catch(err => {
@@ -43,11 +39,7 @@ const actions = {
             commit(AUTH_REQUEST);
             apiCall({ url: "/api/login", method: "POST", data: user })
                 .then(response => {
-                    console.log(response.data)
-                    localStorage.setItem("access_token", response.data.access_token);
                     commit(AUTH_SUCCESS, response);
-                    // aqui debo organizar el api OJO
-                    // dispatch(USER_REQUEST);
                     resolve(response);
                 })
                 .catch(err => {
@@ -75,7 +67,9 @@ const mutations = {
     },
     [AUTH_SUCCESS]: (state, response) => {
         state.status = "success";
+        localStorage.setItem("access_token", response.data.access_token);
         state.access_token = response.data.access_token;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${state.access_token}`;
         state.hasLoadedOnce = true;
     },
     [AUTH_ERROR]: state => {

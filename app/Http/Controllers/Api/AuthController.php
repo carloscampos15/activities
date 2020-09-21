@@ -5,36 +5,19 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
-use App\Models\ApiCode;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function __construct(){
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
-    }
-
     public function login(Request $request){
         // validate data
         $credentials = request()->validate([
             'email' => 'required|email|exists:users,email', 
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:6'
         ]);
         
         // generate token jwt
-        $token = $this->generateToken($credentials);
-
-        if($token)
-            // return user and token
-            return ([
-                'user' => Auth::user(),
-                'access_token' => $token,
-                'token_type' => 'bearer',
-            ]);
-        else
-            // return error unauthorized
-            return response(['error' => 'Unauthorized'], 401);
+        return $this->generateToken($credentials);
     }
 
     public function register(Request $request){
@@ -54,19 +37,16 @@ class AuthController extends Controller
         $user->save();
 
         // generate token jwt
-        $token = $this->generateToken($credentials);
-
-        // return user and token
-        return ([
-            'user' => $user,
-            'access_token' => $token,
-            'token_type' => 'bearer',
-        ]);
+        return $this->generateToken($credentials);
     }
 
     private function generateToken($credentials){
         if (! $token = auth()->attempt($credentials))
-            return false;
-        return $token;
+            return response(['error' => 'Unauthorized'], 401);
+
+        return ([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+        ]);
     }
 }

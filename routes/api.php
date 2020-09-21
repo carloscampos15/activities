@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,11 @@ use App\Http\Controllers\Api\AuthController;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('/user', [UserController::class, 'user'])->name('user');
+    Route::post('/updateProfile', [UserController::class, 'updateProfile'])->name('updateProfile');
+    Route::post('/updatePassword', [UserController::class, 'updatePassword'])->name('updatePassword');
+    // Route::post('logout', 'AuthController@logout');
+    // Route::post('refresh', 'AuthController@refresh');
+    // Route::post('me', 'AuthController@me');
+});

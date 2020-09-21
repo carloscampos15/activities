@@ -40,6 +40,12 @@ const routes = [
         component: () => import("./../components/Home"),
         beforeEnter: ifAuthenticated
     },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import("./../components/Profile"),
+        beforeEnter: ifAuthenticated
+    },
     { path: "*", component: () => import("./../components/Alerts/404"), },
 ]
 

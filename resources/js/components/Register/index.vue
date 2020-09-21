@@ -80,6 +80,7 @@
                     prepend-inner-icon="mdi-lock"
                     label="Confirmar contraseña"
                     type="password"
+                    :error-messages="passwordConfirmationErrors"
                     outlined
                     dense
                     required
@@ -160,7 +161,6 @@ export default {
         .catch((err) => {
           that.loading = false;
           that.errors = false;
-          console.log(err.data);
         });
     },
   },
@@ -182,6 +182,7 @@ export default {
       password: { required, minLength: minLength(6) },
       password_confirmation: {
         sameAsPassword: sameAs("password"),
+        required,
       },
     },
   },
@@ -217,7 +218,13 @@ export default {
       !this.$v.form.password.minLength &&
         errors.push("Contraseña debe tener al menor 6 caracteres");
       !this.$v.form.password_confirmation.sameAsPassword &&
-        errors.push("La contraseña no coincide");
+        errors.push("Las contraseñas no coinciden");
+      return errors;
+    },
+    passwordConfirmationErrors() {
+      const errors = [];
+      if (!this.$v.form.password_confirmation.$dirty) return errors;
+      !this.$v.form.password_confirmation.required && errors.push("Confirmación requerida");
       return errors;
     },
   },
