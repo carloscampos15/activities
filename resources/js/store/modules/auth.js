@@ -1,4 +1,5 @@
 import {
+    REGISTER_REQUEST,
     AUTH_REQUEST,
     AUTH_ERROR,
     AUTH_SUCCESS,
@@ -7,27 +8,43 @@ import {
 import apiCall from "./../../utils/api";
 
 const state = {
-    token: localStorage.getItem("access_token") || "",
+    access_token: localStorage.getItem("access_token") || "",
     status: "",
     hasLoadedOnce: false
 };
 
 const getters = {
-    isAuthenticated: state => !!state.token,
+    isAuthenticated: state => !!state.access_token,
     authStatus: state => state.status
 };
 
 const actions = {
+    [REGISTER_REQUEST]: ({ commit, dispatch }, user) => {
+        return new Promise((resolve, reject) => {
+            commit(REGISTER_REQUEST);
+            apiCall({ url: "/api/register", method: "POST", data: user })
+                .then(response => {
+                    console.log(response.data)
+                    localStorage.setItem("access_token", response.data.access_token);
+                    commit(AUTH_SUCCESS, response);
+                    // aqui debo organizar el api OJO
+                    // dispatch(USER_REQUEST);
+                    resolve(response);
+                })
+                .catch(err => {
+                    commit(AUTH_ERROR, err);
+                    localStorage.removeItem("access_token");
+                    reject(err);
+                });
+        });
+    },
     [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
         return new Promise((resolve, reject) => {
             commit(AUTH_REQUEST);
             apiCall({ url: "/api/login", method: "POST", data: user })
                 .then(response => {
                     console.log(response.data)
-                    localStorage.setItem("access_token", response.token);
-                    // Here set the header of your ajax library to the token value.
-                    // example with axios
-                    // axios.defaults.headers.common['Authorization'] = response.token
+                    localStorage.setItem("access_token", response.data.access_token);
                     commit(AUTH_SUCCESS, response);
                     // aqui debo organizar el api OJO
                     // dispatch(USER_REQUEST);
@@ -50,12 +67,15 @@ const actions = {
 };
 
 const mutations = {
+    [REGISTER_REQUEST]: state => {
+        state.status = "loading";
+    },
     [AUTH_REQUEST]: state => {
         state.status = "loading";
     },
     [AUTH_SUCCESS]: (state, response) => {
         state.status = "success";
-        state.token = response.token;
+        state.access_token = response.data.access_token;
         state.hasLoadedOnce = true;
     },
     [AUTH_ERROR]: state => {
@@ -63,7 +83,7 @@ const mutations = {
         state.hasLoadedOnce = true;
     },
     [AUTH_LOGOUT]: state => {
-        state.token = "";
+        state.access_token = "";
     }
 };
 

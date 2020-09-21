@@ -2,17 +2,19 @@ import Vue from 'vue';
 import router from './router'
 import store from "./store";
 import Vuetify from 'vuetify'
+import Vuelidate from 'vuelidate'
 import axios from "axios";
-import App from './views/App'
+import App from './components/App'
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
+Vue.use(Vuelidate)
 
 window.axios = axios;
 axios.defaults.baseURL = "http://actividades.test";
-const token = localStorage.getItem('access_token')
-if (token) {
-    axios.defaults.headers.common['Authorization'] = token
+const access_token = localStorage.getItem('access_token')
+if (access_token) {
+    axios.defaults.headers.common['Authorization'] = access_token
 }
 
 const app = new Vue({
