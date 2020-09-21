@@ -7,7 +7,7 @@ import {
 import apiCall from "./../../utils/api";
 
 const state = {
-    token: localStorage.getItem("user-token") || "",
+    token: localStorage.getItem("access_token") || "",
     status: "",
     hasLoadedOnce: false
 };
@@ -24,7 +24,7 @@ const actions = {
             apiCall({ url: "/api/login", method: "POST", data: user })
                 .then(response => {
                     console.log(response.data)
-                    localStorage.setItem("user-token", response.token);
+                    localStorage.setItem("access_token", response.token);
                     // Here set the header of your ajax library to the token value.
                     // example with axios
                     // axios.defaults.headers.common['Authorization'] = response.token
@@ -35,7 +35,7 @@ const actions = {
                 })
                 .catch(err => {
                     commit(AUTH_ERROR, err);
-                    localStorage.removeItem("user-token");
+                    localStorage.removeItem("access_token");
                     reject(err);
                 });
         });
@@ -43,7 +43,7 @@ const actions = {
     [AUTH_LOGOUT]: ({ commit }) => {
         return new Promise(resolve => {
             commit(AUTH_LOGOUT);
-            localStorage.removeItem("user-token");
+            localStorage.removeItem("access_token");
             resolve();
         });
     }

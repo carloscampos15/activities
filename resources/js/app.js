@@ -10,7 +10,7 @@ Vue.use(Vuetify)
 
 window.axios = axios;
 axios.defaults.baseURL = "http://actividades.test";
-const token = localStorage.getItem('user-token')
+const token = localStorage.getItem('access_token')
 if (token) {
     axios.defaults.headers.common['Authorization'] = token
 }

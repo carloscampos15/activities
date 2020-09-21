@@ -15,8 +15,11 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+// frontend
+// https://blog.sqreen.com/authentication-best-practices-vue/
+
+// backend with jwt
+// https://jwt-auth.readthedocs.io/en/develop/
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
