@@ -4,10 +4,22 @@
 
     <myNavbar></myNavbar>
 
-    <v-container fluid>
-      <v-row align="center" justify="center">
-        <v-col class="text-center">hola mundo</v-col>
-      </v-row>
+    <v-container>
+      <v-card class="elevation-5 mt-10">
+        <v-toolbar color="primary" dark flat dense>
+          <v-toolbar-title>Mis calendarios de actividades</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-tooltip right>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn :to="{ name: 'Activities.create' }" v-bind="attrs" v-on="on" icon>
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </template>
+            <span>Crear</span>
+          </v-tooltip>
+        </v-toolbar>
+        <v-data-table></v-data-table>
+      </v-card>
     </v-container>
 
     <myFooter></myFooter>
@@ -32,8 +44,7 @@ export default {
     var that = this;
     that.$store
       .dispatch(USER_REQUEST)
-      .then(() => {
-      })
+      .then(() => {})
       .catch((err) => {
         that.$router.push("/");
       });

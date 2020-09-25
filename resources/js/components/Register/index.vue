@@ -1,112 +1,147 @@
 <template>
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="6">
+      <v-col cols="12" sm="8" md="8">
         <v-card class="elevation-12">
-          <v-toolbar color="primary" dark flat>
-            <v-toolbar-title>Universidad Autónoma de Manizales</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>
-            <v-form ref="form" @submit.prevent="submit">
-              <v-row>
-                <v-col cols="12" md="8">
-                  <v-text-field
-                    prepend-inner-icon="mdi-account"
-                    label="Nombre completo"
-                    :error-messages="nameErrors"
-                    type="text"
-                    outlined
-                    dense
-                    required
-                    v-model="form.name"
-                    @input="$v.form.name.$touch()"
-                    @blur="$v.form.name.$touch()"
-                    @keypress="!errors ? errors = true : errors"
-                  ></v-text-field>
+          <v-card-text class="content-all">
+            <v-container>
+              <v-row align="center">
+                <v-col class="content-register ml-10 mt-4">
+                  <h1>Crear una cuenta</h1>
+                  <h3 class="mt-2">
+                    Tienes una cuenta?
+                    <v-btn
+                      class="text-none btn-link"
+                      to="/"
+                      text
+                      small
+                      color="primary"
+                      >Iniciar sesión</v-btn
+                    >
+                  </h3>
+                  <v-form class="mt-8" ref="form" @submit.prevent="submit">
+                    <v-row>
+                      <v-col cols="12 custom-col" md="6">
+                        <v-text-field
+                          prepend-inner-icon="mdi-account"
+                          label="Nombres"
+                          :error-messages="nameErrors"
+                          type="text"
+                          outlined
+                          dense
+                          required
+                          rounded
+                          v-model="form.name"
+                          @input="$v.form.name.$touch()"
+                          @blur="$v.form.name.$touch()"
+                          @keypress="!errors ? (errors = true) : errors"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12 custom-col" md="6">
+                        <v-text-field
+                          prepend-inner-icon="mdi-account"
+                          label="Apellidos"
+                          :error-messages="lastnameErrors"
+                          type="text"
+                          outlined
+                          dense
+                          required
+                          rounded
+                          v-model="form.lastname"
+                          @input="$v.form.lastname.$touch()"
+                          @blur="$v.form.lastname.$touch()"
+                          @keypress="!errors ? (errors = true) : errors"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="12 custom-col" md="7">
+                        <v-text-field
+                          prepend-inner-icon="mdi-email"
+                          label="Correo electronico"
+                          :error-messages="emailErrors"
+                          type="email"
+                          outlined
+                          dense
+                          required
+                          rounded
+                          v-model="form.email"
+                          @input="$v.form.email.$touch()"
+                          @blur="$v.form.email.$touch()"
+                          @keypress="!errors ? (errors = true) : errors"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12 custom-col" md="5">
+                        <v-select
+                          prepend-inner-icon="mdi-tooltip-account"
+                          :items="rols"
+                          label="Usuario"
+                          :error-messages="rolErrors"
+                          item-text="name"
+                          item-value="id"
+                          outlined
+                          dense
+                          required
+                          rounded
+                          v-model="form.rol_id"
+                          @input="$v.form.rol_id.$touch()"
+                          @blur="$v.form.rol_id.$touch()"
+                          @change="!errors ? (errors = true) : errors"
+                        ></v-select>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="12 custom-col" md="6">
+                        <v-text-field
+                          prepend-inner-icon="mdi-lock"
+                          label="Contraseña"
+                          :error-messages="passwordErrors"
+                          type="password"
+                          outlined
+                          dense
+                          required
+                          rounded
+                          v-model="form.password"
+                          @input="$v.form.password.$touch()"
+                          @blur="$v.form.password.$touch()"
+                          @keypress="!errors ? (errors = true) : errors"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12 custom-col" md="6">
+                        <v-text-field
+                          prepend-inner-icon="mdi-lock"
+                          label="Confirmar contraseña"
+                          type="password"
+                          :error-messages="passwordConfirmationErrors"
+                          outlined
+                          dense
+                          required
+                          rounded
+                          v-model="form.password_confirmation"
+                          @keypress="!errors ? (errors = true) : errors"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <div class="text-center">
+                      <v-btn
+                        type="submit"
+                        class="text-capitalize mb-2"
+                        color="primary"
+                        :loading="loading"
+                        rounded
+                        block
+                        >Registrarme</v-btn
+                      >
+                    </div>
+                  </v-form>
                 </v-col>
-                <v-col cols="12" md="4">
-                  <v-select
-                    prepend-inner-icon="mdi-tooltip-account"
-                    :items="rols"
-                    label="Tipo de usuario"
-                    :error-messages="rolErrors"
-                    item-text="name"
-                    item-value="id"
-                    outlined
-                    dense
-                    required
-                    v-model="form.rol_id"
-                    @input="$v.form.rol_id.$touch()"
-                    @blur="$v.form.rol_id.$touch()"
-                    @change="!errors ? errors = true : errors"
-                  ></v-select>
+                <v-col class="img mt-5 mb-5" cols="12" sm="5">
+                  <div class="text-center">
+                    <img src="images/register.png" />
+                  </div>
                 </v-col>
               </v-row>
-              <v-row>
-                <v-col cols="12" md="12">
-                  <v-text-field
-                    prepend-inner-icon="mdi-email"
-                    label="Correo electronico"
-                    :error-messages="emailErrors"
-                    type="email"
-                    outlined
-                    dense
-                    required
-                    v-model="form.email"
-                    @input="$v.form.email.$touch()"
-                    @blur="$v.form.email.$touch()"
-                    @keypress="!errors ? errors = true : errors"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    prepend-inner-icon="mdi-lock"
-                    label="Contraseña"
-                    :error-messages="passwordErrors"
-                    type="password"
-                    outlined
-                    dense
-                    required
-                    v-model="form.password"
-                    @input="$v.form.password.$touch()"
-                    @blur="$v.form.password.$touch()"
-                    @keypress="!errors ? errors = true : errors"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    prepend-inner-icon="mdi-lock"
-                    label="Confirmar contraseña"
-                    type="password"
-                    :error-messages="passwordConfirmationErrors"
-                    outlined
-                    dense
-                    required
-                    v-model="form.password_confirmation"
-                    @keypress="!errors ? errors = true : errors"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-              <div class="text-center">
-                <v-btn
-                  type="submit"
-                  class="text-capitalize mb-2"
-                  color="primary"
-                  :loading="loading"
-                  outlined
-                  block
-                >Registrarme</v-btn>
-                <v-btn
-                  to="/"
-                  class="text-capitalize"
-                  color="success"
-                  outlined
-                  block
-                >Deseo iniciar sesión</v-btn>
-              </div>
-            </v-form>
+            </v-container>
           </v-card-text>
         </v-card>
       </v-col>
@@ -140,6 +175,7 @@ export default {
       if (that.$v.form.$anyError) return;
       const {
         name,
+        lastname,
         rol_id,
         email,
         password,
@@ -149,6 +185,7 @@ export default {
       that.$store
         .dispatch(REGISTER_REQUEST, {
           name,
+          lastname,
           rol_id,
           email,
           password,
@@ -156,7 +193,7 @@ export default {
         })
         .then(() => {
           that.loading = false;
-          that.$router.push("/home");
+          that.$router.push("/activities");
         })
         .catch((err) => {
           that.loading = false;
@@ -167,6 +204,9 @@ export default {
   validations: {
     form: {
       name: {
+        required,
+      },
+      lastname: {
         required,
       },
       rol_id: {
@@ -190,8 +230,13 @@ export default {
     nameErrors() {
       const errors = [];
       if (!this.$v.form.name.$dirty) return errors;
-      !this.$v.form.name.required &&
-        errors.push("Nombre completo es requerido");
+      !this.$v.form.name.required && errors.push("Nombres requeridos");
+      return errors;
+    },
+    lastnameErrors() {
+      const errors = [];
+      if (!this.$v.form.lastname.$dirty) return errors;
+      !this.$v.form.lastname.required && errors.push("Apellidos requeridos");
       return errors;
     },
     rolErrors() {
@@ -224,7 +269,8 @@ export default {
     passwordConfirmationErrors() {
       const errors = [];
       if (!this.$v.form.password_confirmation.$dirty) return errors;
-      !this.$v.form.password_confirmation.required && errors.push("Confirmación requerida");
+      !this.$v.form.password_confirmation.required &&
+        errors.push("Confirmación requerida");
       return errors;
     },
   },
@@ -232,4 +278,32 @@ export default {
 </script>
 
 <style scoped>
+.img img {
+  width: 260px;
+}
+
+.btn-link {
+  height: auto !important;
+  min-width: auto !important;
+  padding: 0 !important;
+}
+
+.custom-col {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+@media screen and (max-width: 1100px) {
+  .img {
+    display: none;
+  }
+
+  .content-all {
+    grid-template-columns: 1fr;
+  }
+
+  .content-all > .container > .row > .content-register {
+    margin-left: 0 !important;
+  }
+}
 </style>

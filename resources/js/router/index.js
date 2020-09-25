@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from './../components/Login';
 import store from "./../store";
+import EmptyRouterView from "./../components/Layouts/EmptyRouterView";
 
 Vue.use(VueRouter);
 
@@ -10,7 +11,7 @@ const ifNotAuthenticated = (to, from, next) => {
         next();
         return;
     }
-    next("/home");
+    next("/activities");
 };
 
 const ifAuthenticated = (to, from, next) => {
@@ -35,9 +36,19 @@ const routes = [
         beforeEnter: ifNotAuthenticated
     },
     {
-        path: '/home',
-        name: 'Home',
-        component: () => import("./../components/Home"),
+        path: '/activities',
+        component: EmptyRouterView,
+        children: [{
+            path: '',
+            name: 'Activities',
+            component: () => import("./../components/Activities"),
+        },
+        {
+            path: 'create',
+            name: 'Activities.create',
+            component: () => import("./../components/Activities/create"),
+            beforeEnter: ifAuthenticated
+        }],
         beforeEnter: ifAuthenticated
     },
     {

@@ -19,6 +19,7 @@ const actions = {
                     resolve(response);
                 })
                 .catch((err) => {
+                    console.log(err);
                     commit(USER_ERROR);
                     dispatch(AUTH_LOGOUT);
                     reject(err);

@@ -4,11 +4,14 @@ import store from "./store";
 import Vuetify from 'vuetify'
 import Vuelidate from 'vuelidate'
 import axios from "axios";
+import VueSweetalert2 from 'vue-sweetalert2';
 import App from './components/App'
 import 'vuetify/dist/vuetify.min.css'
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.use(Vuetify)
 Vue.use(Vuelidate)
+Vue.use(VueSweetalert2);
 
 window.axios = axios;
 axios.defaults.baseURL = "http://actividades.test";

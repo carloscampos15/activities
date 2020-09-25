@@ -12,18 +12,34 @@
         <v-card-text>
           <v-form ref="form" @submit.prevent="submitData">
             <v-row>
-              <v-col cols="12" md="8">
+              <v-col cols="12" md="4">
                 <v-text-field
                   prepend-inner-icon="mdi-account"
-                  label="Nombre completo"
+                  label="Nombres"
                   type="text"
                   :error-messages="nameErrors"
                   outlined
                   dense
                   required
+                  rounded
                   v-model="form1.name"
                   @input="$v.form1.name.$touch()"
                   @blur="$v.form1.name.$touch()"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  prepend-inner-icon="mdi-account"
+                  label="Apellidos"
+                  type="text"
+                  :error-messages="lastnameErrors"
+                  outlined
+                  dense
+                  required
+                  rounded
+                  v-model="form1.lastname"
+                  @input="$v.form1.lastname.$touch()"
+                  @blur="$v.form1.lastname.$touch()"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -37,6 +53,7 @@
                   outlined
                   dense
                   required
+                  rounded
                   v-model="form1.rol_id"
                   @input="$v.form1.rol_id.$touch()"
                   @blur="$v.form1.rol_id.$touch()"
@@ -47,11 +64,12 @@
               <v-btn
                 type="submit"
                 class="text-capitalize mb-2"
-                color="primary"
-                outlined
+                color="success"
+                rounded
                 block
                 :loading="loading1"
-              >Actualizar datos</v-btn>
+                >Actualizar datos</v-btn
+              >
             </div>
           </v-form>
         </v-card-text>
@@ -72,10 +90,11 @@
                   outlined
                   dense
                   required
+                  rounded
                   v-model="form2.oldPassword"
                   @input="$v.form2.oldPassword.$touch()"
                   @blur="$v.form2.oldPassword.$touch()"
-                  @keypress="!errors ? errors = true : errors"
+                  @keypress="!errors ? (errors = true) : errors"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -87,10 +106,11 @@
                   outlined
                   dense
                   required
+                  rounded
                   v-model="form2.password"
                   @input="$v.form2.password.$touch()"
                   @blur="$v.form2.password.$touch()"
-                  @keypress="!errors ? errors = true : errors"
+                  @keypress="!errors ? (errors = true) : errors"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -102,8 +122,9 @@
                   outlined
                   dense
                   required
+                  rounded
                   v-model="form2.password_confirmation"
-                  @keypress="!errors ? errors = true : errors"
+                  @keypress="!errors ? (errors = true) : errors"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -111,11 +132,12 @@
               <v-btn
                 type="submit"
                 class="text-capitalize mb-2"
-                color="primary"
-                outlined
+                color="success"
+                rounded
                 block
                 :loading="loading2"
-              >Actualizar contraseña</v-btn>
+                >Actualizar contraseña</v-btn
+              >
             </div>
           </v-form>
         </v-card-text>
@@ -130,6 +152,7 @@
 import { USER_REQUEST } from "./../../store/actions/user";
 import { UPDATE_PROFILE_REQUEST } from "./../../store/actions/user";
 import { UPDATE_PASSWORD_REQUEST } from "./../../store/actions/user";
+import { TOAST_FIRE } from "./../../store/actions/home";
 import { mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
@@ -148,6 +171,7 @@ export default {
     errors: true,
     form1: {
       name: null,
+      lastname: null,
       rol_id: null,
     },
     form2: {
@@ -161,16 +185,26 @@ export default {
       var that = this;
       !that.$v.form1.$touch();
       if (that.$v.form1.$anyError) return;
-      const { name, rol_id } = that.form1;
+      const { name, lastname, rol_id } = that.form1;
       that.loading1 = true;
 
       that.$store
         .dispatch(UPDATE_PROFILE_REQUEST, {
           name,
+          lastname,
           rol_id,
         })
         .then(() => {
           that.loading1 = false;
+
+          that.$swal({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            icon: "success",
+            title: "Datos actualizados",
+          });
         })
         .catch((err) => {
           that.loading1 = false;
@@ -195,6 +229,15 @@ export default {
           that.form2.password = "";
           that.form2.password_confirmation = "";
           that.$v.$reset();
+
+          that.$swal({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            icon: "success",
+            title: "Contraseña actualizada",
+          });
         })
         .catch((err) => {
           that.loading2 = false;
@@ -205,6 +248,9 @@ export default {
   validations: {
     form1: {
       name: {
+        required,
+      },
+      lastname: {
         required,
       },
       rol_id: {
@@ -234,8 +280,13 @@ export default {
     nameErrors() {
       const errors = [];
       if (!this.$v.form1.name.$dirty) return errors;
-      !this.$v.form1.name.required &&
-        errors.push("Nombre completo es requerido");
+      !this.$v.form1.name.required && errors.push("Nombres requeridos");
+      return errors;
+    },
+    lastnameErrors() {
+      const errors = [];
+      if (!this.$v.form1.lastname.$dirty) return errors;
+      !this.$v.form1.lastname.required && errors.push("Apellidos requeridos");
       return errors;
     },
     rolErrors() {
@@ -281,6 +332,7 @@ export default {
       .dispatch(USER_REQUEST)
       .then(() => {
         that.form1.name = that.getUser.name;
+        that.form1.lastname = that.getUser.lastname;
         that.form1.rol_id = that.getUser.rol.id;
       })
       .catch((err) => {

@@ -24,6 +24,7 @@ class AuthController extends Controller
         // validate data
         $credentials = request()->validate([
             'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users', 
             'rol_id' => 'required|exists:rols,id',
             'password' => 'required|string|min:6|confirmed',

@@ -1,59 +1,77 @@
 <template>
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
-      <v-col cols="12" sm="8" md="4">
+      <v-col cols="12" sm="8" md="6">
         <v-card class="elevation-12">
-          <v-toolbar color="primary" dark flat>
-            <v-toolbar-title>Universidad Autónoma de Manizales</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>
-            <v-form ref="form" @submit.prevent="submit">
-              <v-text-field
-                prepend-inner-icon="mdi-email"
-                label="Correo electrónico"
-                :error-messages="emailErrors"
-                type="email"
-                outlined
-                dense
-                required
-                v-model="form.email"
-                @input="$v.form.email.$touch()"
-                @blur="$v.form.email.$touch()"
-                @keypress="!errors ? errors = true : errors"
-              ></v-text-field>
-              <v-text-field
-                prepend-inner-icon="mdi-lock"
-                label="Contraseña"
-                :error-messages="passwordErrors"
-                type="password"
-                outlined
-                dense
-                required
-                v-model="form.password"
-                @input="$v.form.password.$touch()"
-                @blur="$v.form.password.$touch()"
-                @keypress="!errors ? errors = true : errors"
-              ></v-text-field>
-              <div class="text-center">
-                <v-btn
-                  type="submit"
-                  class="text-capitalize mb-2"
-                  color="primary"
-                  :loading="loading"
-                  outlined
-                  block
-                >Iniciar sesión</v-btn>
-                <v-btn
-                  to="register"
-                  class="text-capitalize"
-                  color="success"
-                  outlined
-                  block
-                >Deseo registrarme</v-btn>
-                <v-divider class="mt-4 mb-2"></v-divider>
-                <a href="#" class="text-decoration-none" color="success">¿Olvide mi contraseña?</a>
-              </div>
-            </v-form>
+          <v-card-text class="content-all">
+            <v-container>
+              <v-row align="center">
+                <v-col class="content-login ml-10">
+                  <h1>Iniciar Sesión</h1>
+                  <h3 class="mt-2">
+                    ¿Nuevo usuario?
+                    <v-btn
+                      class="text-none btn-link"
+                      to="register"
+                      text
+                      small
+                      color="primary"
+                      >Crear una cuenta</v-btn
+                    >
+                  </h3>
+                  <v-form class="mt-8" ref="form" @submit.prevent="submit">
+                    <v-text-field
+                      prepend-inner-icon="mdi-email"
+                      label="Correo electrónico"
+                      :error-messages="emailErrors"
+                      type="email"
+                      outlined
+                      dense
+                      required
+                      rounded
+                      v-model="form.email"
+                      @input="$v.form.email.$touch()"
+                      @blur="$v.form.email.$touch()"
+                      @keypress="!errors ? (errors = true) : errors"
+                    ></v-text-field>
+                    <v-text-field
+                      prepend-inner-icon="mdi-lock"
+                      label="Contraseña"
+                      :error-messages="passwordErrors"
+                      type="password"
+                      outlined
+                      dense
+                      required
+                      rounded
+                      v-model="form.password"
+                      @input="$v.form.password.$touch()"
+                      @blur="$v.form.password.$touch()"
+                      @keypress="!errors ? (errors = true) : errors"
+                    ></v-text-field>
+                    <div class="text-center">
+                      <v-btn
+                        type="submit"
+                        class="text-capitalize mb-2"
+                        color="primary"
+                        :loading="loading"
+                        rounded
+                        block
+                        >Iniciar sesión</v-btn
+                      >
+                      <v-divider class="mt-4 mb-2"></v-divider>
+                      <a href="#" class="text-decoration-none" color="success"
+                        >¿Olvide mi contraseña?</a
+                      >
+                    </div>
+                  </v-form>
+                </v-col>
+                <v-col class="img mt-5 mb-5" cols="12" sm="5">
+                  <div class="text-center">
+                    <img src="images/login.png" />
+                  </div>
+                </v-col>
+              </v-row>
+            </v-container>
           </v-card-text>
         </v-card>
       </v-col>
@@ -90,7 +108,7 @@ export default {
         .dispatch(AUTH_REQUEST, { email, password })
         .then(() => {
           that.loading = false;
-          that.$router.push("/home");
+          that.$router.push("/activities");
         })
         .catch((err) => {
           that.loading = false;
@@ -132,4 +150,27 @@ export default {
 </script>
 
 <style scoped>
+.img img {
+  width: 190px;
+}
+
+.btn-link {
+  height: auto !important;
+  min-width: auto !important;
+  padding: 0 !important;
+}
+
+@media screen and (max-width: 900px) {
+  .img {
+    display: none;
+  }
+
+  .content-all {
+    grid-template-columns: 1fr;
+  }
+
+  .content-all > .container > .row > .content-login {
+    margin-left: 0 !important;
+  }
+}
 </style>

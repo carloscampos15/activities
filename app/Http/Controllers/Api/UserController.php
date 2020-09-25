@@ -22,6 +22,7 @@ class UserController extends Controller
         // validate data
         $credentials = request()->validate([
             'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'rol_id' => 'required|exists:rols,id',
         ]);
 
