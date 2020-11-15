@@ -11,7 +11,7 @@ const ifNotAuthenticated = (to, from, next) => {
         next();
         return;
     }
-    next("/activities");
+    next("/schedules");
 };
 
 const ifAuthenticated = (to, from, next) => {
@@ -36,17 +36,17 @@ const routes = [
         beforeEnter: ifNotAuthenticated
     },
     {
-        path: '/activities',
+        path: '/schedules',
         component: EmptyRouterView,
         children: [{
             path: '',
-            name: 'Activities',
-            component: () => import("./../components/Activities"),
+            name: 'Schedules',
+            component: () => import("./../components/Schedules"),
         },
         {
             path: 'create',
-            name: 'Activities.create',
-            component: () => import("./../components/Activities/create"),
+            name: 'Schedules.create',
+            component: () => import("./../components/Schedules/create"),
             beforeEnter: ifAuthenticated
         }],
         beforeEnter: ifAuthenticated

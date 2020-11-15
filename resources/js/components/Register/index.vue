@@ -122,6 +122,27 @@
                         ></v-text-field>
                       </v-col>
                     </v-row>
+                    <v-row>
+                      <v-col class="pt-0 pb-5" cols="12" md="6">
+                        <vue-recaptcha
+                          sitekey="6LcbH9EZAAAAADxZJhdkJhTfiHM7R5PYSrj8-r8Y"
+                          :loadRecaptchaScript="true"
+                          @verify="markRecaptchaAsVerified"
+                        ></vue-recaptcha>
+                        <div class="v-text-field__details">
+                          <div
+                            class="v-messages theme--light error--text"
+                            role="alert"
+                          >
+                            <div class="v-messages__wrapper">
+                              <div class="v-messages__message">
+                                {{ captchaError }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </v-col>
+                    </v-row>
                     <div class="text-center">
                       <v-btn
                         type="submit"
@@ -152,14 +173,18 @@
 <script>
 import { REGISTER_REQUEST } from "./../../store/actions/auth";
 import { validationMixin } from "vuelidate";
+import VueRecaptcha from "vue-recaptcha";
 import { required, email, sameAs, minLength } from "vuelidate/lib/validators";
 export default {
   name: "Register",
   mixins: [validationMixin],
   props: ["rols"],
+  components: { VueRecaptcha },
   data: () => ({
     errors: true,
     loading: false,
+    captcha: false,
+    captchaError: "",
     form: {
       name: null,
       rol_id: null,
@@ -169,10 +194,24 @@ export default {
     },
   }),
   methods: {
+    markRecaptchaAsVerified(response) {
+      this.captchaError = "";
+      this.captcha = true;
+    },
     submit() {
       var that = this;
       !that.$v.$touch();
-      if (that.$v.form.$anyError) return;
+      if (that.$v.form.$anyError) {
+        if (!that.captcha) {
+          that.captchaError = "Verificación obligatoria";
+        }
+        return;
+      } else {
+        if (!that.captcha) {
+          that.captchaError = "Verificación obligatoria";
+          return;
+        }
+      }
       const {
         name,
         lastname,
@@ -193,7 +232,7 @@ export default {
         })
         .then(() => {
           that.loading = false;
-          that.$router.push("/activities");
+          that.$router.push("/schedules");
         })
         .catch((err) => {
           that.loading = false;

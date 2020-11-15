@@ -2183,7 +2183,7 @@ __webpack_require__.r(__webpack_exports__);
         password: password
       }).then(function () {
         that.loading = false;
-        that.$router.push("/activities");
+        that.$router.push("/schedules");
       })["catch"](function (err) {
         that.loading = false;
         that.errors = false;
@@ -69423,7 +69423,7 @@ var ifNotAuthenticated = function ifNotAuthenticated(to, from, next) {
     return;
   }
 
-  next("/activities");
+  next("/schedules");
 };
 
 var ifAuthenticated = function ifAuthenticated(to, from, next) {
@@ -69444,23 +69444,23 @@ var routes = [{
   path: '/register',
   name: 'Register',
   component: function component() {
-    return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./../components/Register */ "./resources/js/components/Register/index.vue"));
+    return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./../components/Register */ "./resources/js/components/Register/index.vue"));
   },
   beforeEnter: ifNotAuthenticated
 }, {
-  path: '/activities',
+  path: '/schedules',
   component: _components_Layouts_EmptyRouterView__WEBPACK_IMPORTED_MODULE_4__["default"],
   children: [{
     path: '',
-    name: 'Activities',
+    name: 'Schedules',
     component: function component() {
-      return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(3)]).then(__webpack_require__.bind(null, /*! ./../components/Activities */ "./resources/js/components/Activities/index.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! ./../components/Schedules */ "./resources/js/components/Schedules/index.vue"));
     }
   }, {
     path: 'create',
-    name: 'Activities.create',
+    name: 'Schedules.create',
     component: function component() {
-      return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(1)]).then(__webpack_require__.bind(null, /*! ./../components/Activities/create */ "./resources/js/components/Activities/create.vue"));
+      return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(5)]).then(__webpack_require__.bind(null, /*! ./../components/Schedules/create */ "./resources/js/components/Schedules/create.vue"));
     },
     beforeEnter: ifAuthenticated
   }],
@@ -69469,7 +69469,7 @@ var routes = [{
   path: '/profile',
   name: 'Profile',
   component: function component() {
-    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(4)]).then(__webpack_require__.bind(null, /*! ./../components/Profile */ "./resources/js/components/Profile/index.vue"));
+    return Promise.all(/*! import() */[__webpack_require__.e(0), __webpack_require__.e(3)]).then(__webpack_require__.bind(null, /*! ./../components/Profile */ "./resources/js/components/Profile/index.vue"));
   },
   beforeEnter: ifAuthenticated
 }, {

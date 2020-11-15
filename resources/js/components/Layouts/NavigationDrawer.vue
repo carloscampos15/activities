@@ -21,7 +21,7 @@
     </v-list-item>
     <v-divider></v-divider>
     <v-list dense>
-      <v-list-item link to="/activities">
+      <v-list-item link to="/schedules">
         <v-list-item-action>
           <v-icon>mdi-home</v-icon>
         </v-list-item-action>

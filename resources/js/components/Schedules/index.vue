@@ -11,11 +11,11 @@
           <v-spacer></v-spacer>
           <v-tooltip right>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn :to="{ name: 'Activities.create' }" v-bind="attrs" v-on="on" icon>
+              <v-btn :to="{ name: 'Schedules.create' }" v-bind="attrs" v-on="on" icon>
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </template>
-            <span>Crear</span>
+            <span>Crear calendario</span>
           </v-tooltip>
         </v-toolbar>
         <v-data-table></v-data-table>
@@ -34,7 +34,7 @@ import myNavbar from "./../Layouts/NavBar";
 import myNavigationDrawer from "./../Layouts/NavigationDrawer";
 
 export default {
-  name: "Home",
+  name: "Schedules",
   props: {},
   components: { myFooter, myNavbar, myNavigationDrawer },
   data: () => ({}),

@@ -108,7 +108,7 @@ export default {
         .dispatch(AUTH_REQUEST, { email, password })
         .then(() => {
           that.loading = false;
-          that.$router.push("/activities");
+          that.$router.push("/schedules");
         })
         .catch((err) => {
           that.loading = false;
