@@ -8,6 +8,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import App from './components/App'
 import 'vuetify/dist/vuetify.min.css'
 import 'sweetalert2/dist/sweetalert2.min.css';
+import 'vue2-timepicker/dist/VueTimepicker.css'
 
 Vue.use(Vuetify)
 Vue.use(Vuelidate)

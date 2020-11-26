@@ -44,7 +44,6 @@ const actions = {
                 })
                 .catch(err => {
                     commit(AUTH_ERROR, err);
-                    localStorage.removeItem("access_token");
                     reject(err);
                 });
         });
@@ -52,7 +51,6 @@ const actions = {
     [AUTH_LOGOUT]: ({ commit }) => {
         return new Promise(resolve => {
             commit(AUTH_LOGOUT);
-            localStorage.removeItem("access_token");
             resolve();
         });
     }
@@ -68,16 +66,21 @@ const mutations = {
     [AUTH_SUCCESS]: (state, response) => {
         state.status = "success";
         localStorage.setItem("access_token", response.data.access_token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         state.access_token = response.data.access_token;
         axios.defaults.headers.common['Authorization'] = `Bearer ${state.access_token}`;
         state.hasLoadedOnce = true;
     },
     [AUTH_ERROR]: state => {
         state.status = "error";
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user");
         state.hasLoadedOnce = true;
     },
     [AUTH_LOGOUT]: state => {
         state.access_token = "";
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user");
     }
 };
 

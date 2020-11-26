@@ -41,13 +41,13 @@ export default {
   methods: {},
   computed: {},
   beforeMount() {
-    var that = this;
-    that.$store
-      .dispatch(USER_REQUEST)
-      .then(() => {})
-      .catch((err) => {
-        that.$router.push("/");
-      });
+    // var that = this;
+    // that.$store
+    //   .dispatch(USER_REQUEST)
+    //   .then(() => {})
+    //   .catch((err) => {
+    //     that.$router.push("/");
+    //   });
   },
 };
 </script>

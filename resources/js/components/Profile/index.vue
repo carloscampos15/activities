@@ -327,17 +327,9 @@ export default {
     },
   },
   beforeMount() {
-    var that = this;
-    that.$store
-      .dispatch(USER_REQUEST)
-      .then(() => {
-        that.form1.name = that.getUser.name;
-        that.form1.lastname = that.getUser.lastname;
-        that.form1.rol_id = that.getUser.rol.id;
-      })
-      .catch((err) => {
-        that.$router.push("/");
-      });
+    this.form1.name = this.getUser.name;
+    this.form1.lastname = this.getUser.lastname;
+    this.form1.rol_id = this.getUser.rol.id;
   },
 };
 </script>

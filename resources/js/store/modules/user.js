@@ -2,7 +2,7 @@ import { USER_REQUEST, UPDATE_PROFILE_REQUEST, UPDATE_PASSWORD_REQUEST, USER_ERR
 import apiCall from "./../../utils/api";
 import { AUTH_LOGOUT } from "./../actions/auth";
 
-const state = { status: "", user: {} };
+const state = { status: "", user: JSON.parse(localStorage.getItem("user")) || "" };
 
 const getters = {
     getUser: state => state.user,
