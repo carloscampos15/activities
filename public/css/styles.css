@@ -1,0 +1,59 @@
+.v-calendar-daily__head {
+    margin-right: 0 !important;
+}
+
+.v-calendar-daily__scroll-area {
+    overflow-y: hidden !important;
+}
+
+.v-calendar-daily_head-day-label {
+    display: none;
+}
+
+.creditos-total {
+    display: inline;
+}
+
+.buttons-content {
+    height: 10%;
+}
+
+.content-calendar {
+    height: 100%;
+}
+
+.content-tasks {
+    height: 90%;
+}
+
+.options-task {
+    display: none;
+}
+
+.custom-picker {
+    max-width: none !important;
+}
+
+.v-color-picker__controls {
+    display: none !important;
+}
+
+.display-time {
+    height: 3.2em !important;
+}
+
+.dot {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background-color: #bbb;
+    display: inline-block;
+}
+
+.content-color {
+    display: inline-flex;
+}
+
+.display-time {
+    border-radius: 20px !important;
+}
